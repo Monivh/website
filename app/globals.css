@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand palette sampled from the Monivah mark */
+  --brand-indigo: #6366f1;
+  --brand-blue: #3b82f6;
+  --brand-cyan: #22d3ee;
+  --brand-teal: #2dd4bf;
+  --brand-lime: #a3e635;
 }
 
 @theme inline {
@@ -10,6 +17,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-brand-indigo: var(--brand-indigo);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-lime: var(--brand-lime);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +36,59 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #020617;
+}
+
+::selection {
+  background: #22d3ee;
+  color: #020617;
+}
+
+/* Brand gradient helpers, matching the Monivah logo's diagonal blend */
+.text-gradient-brand {
+  background-image: linear-gradient(
+    115deg,
+    var(--brand-indigo) 0%,
+    var(--brand-cyan) 50%,
+    var(--brand-lime) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.bg-gradient-brand {
+  background-image: linear-gradient(
+    115deg,
+    var(--brand-indigo) 0%,
+    var(--brand-cyan) 50%,
+    var(--brand-lime) 100%
+  );
+}
+
+.bg-gradient-brand-soft {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-indigo) 18%, transparent) 0%,
+    color-mix(in srgb, var(--brand-cyan) 14%, transparent) 50%,
+    color-mix(in srgb, var(--brand-lime) 14%, transparent) 100%
+  );
+}
+
+.border-gradient-brand {
+  border-image: linear-gradient(
+      115deg,
+      var(--brand-indigo),
+      var(--brand-cyan),
+      var(--brand-lime)
+    )
+    1;
 }
