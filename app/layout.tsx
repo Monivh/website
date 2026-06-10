@@ -16,11 +16,6 @@ export const metadata: Metadata = {
   title: "Monivah | Invest Beyond Borders",
   description:
     "Monivah is the financial bridge between Africa and global wealth — invest in stocks, ETFs and emerging markets directly from your phone.",
-  icons: {
-    icon: "/monivah-logo.png",
-    shortcut: "/monivah-logo.png",
-    apple: "/monivah-logo.png",
-  },
 };
 
 export default function RootLayout({
