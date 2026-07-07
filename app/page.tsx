@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import WaitlistModal from "../components/WaitlistModal";
 import {
   ShieldCheck,
   Globe,
@@ -228,6 +229,7 @@ const footerLinks = {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   return (
     <main className="bg-[#020617] text-white overflow-hidden">
@@ -259,7 +261,10 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="hidden sm:flex bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-5 py-3 rounded-xl font-semibold items-center gap-2 hover:opacity-90 transition-opacity">
+            <button
+              onClick={() => setWaitlistOpen(true)}
+              className="hidden sm:flex bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-5 py-3 rounded-xl font-semibold items-center gap-2 hover:opacity-90 transition-opacity"
+            >
               Join Waitlist
             </button>
 
@@ -285,7 +290,10 @@ export default function Home() {
                 {link.label}
               </a>
             ))}
-            <button className="bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-5 py-3 rounded-xl font-semibold">
+            <button
+              onClick={() => setWaitlistOpen(true)}
+              className="bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-5 py-3 rounded-xl font-semibold"
+            >
               Join Waitlist
             </button>
           </div>
@@ -318,7 +326,10 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-10">
-              <button className="bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+              <button
+                onClick={() => setWaitlistOpen(true)}
+                className="bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+              >
                 Join the Waitlist
                 <ArrowRight size={18} />
               </button>
@@ -550,7 +561,10 @@ export default function Home() {
                   markets without building it themselves.
                 </p>
 
-                <button className="mt-8 bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-2 hover:opacity-90 transition-opacity">
+                <button
+                  onClick={() => setWaitlistOpen(true)}
+                  className="mt-8 bg-gradient-to-r from-brand-cyan to-brand-lime text-slate-950 px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+                >
                   Join the Waitlist
                   <ArrowRight size={18} />
                 </button>
@@ -667,20 +681,13 @@ export default function Home() {
                 — just an invite when it matters most.
               </p>
 
-              <form className="mt-8 flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-5 py-4 rounded-xl text-slate-950 bg-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-950/20"
-                />
-
-                <button
-                  type="submit"
-                  className="bg-slate-950 text-white px-8 py-4 rounded-xl font-semibold hover:bg-slate-800 transition-colors"
-                >
-                  Join Waitlist
-                </button>
-              </form>
+              <button
+                onClick={() => setWaitlistOpen(true)}
+                className="mt-8 bg-slate-950 text-white px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-2 hover:bg-slate-800 transition-colors w-fit"
+              >
+                Join the Waitlist
+                <ArrowRight size={18} />
+              </button>
 
               <p className="mt-4 text-sm text-slate-900/60">
                 Join 10,000+ future investors already on the list.
@@ -736,6 +743,10 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      <WaitlistModal
+        isOpen={waitlistOpen}
+        onClose={() => setWaitlistOpen(false)}
+      />
     </main>
   );
 }
