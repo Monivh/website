@@ -733,7 +733,14 @@ export default function Home() {
             </div>
 
             {Object.entries(footerLinks).map(([title, links]) => (
-              <FooterColumn key={title} title={title} links={links} />
+              <FooterColumn key={title} title={title} links={links}>
+                {title === "Company" && (
+                  <div className="mt-4 space-y-1 text-sm text-slate-400">
+                    <p>15, Bunmi Olowude Street,</p>
+                    <p>Lagos, State, Nigeria</p>
+                  </div>
+                )}
+              </FooterColumn>
             ))}
           </div>
 
@@ -935,9 +942,11 @@ function FaqItem({
 function FooterColumn({
   title,
   links,
+  children,
 }: {
   title: string;
   links: { label: string; href: string }[];
+  children?: React.ReactNode;
 }) {
   return (
     <div>
@@ -951,6 +960,7 @@ function FooterColumn({
           </li>
         ))}
       </ul>
+      {children}
     </div>
   );
 }
