@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Monivah | Invest Beyond Borders",
   description:
-    "Monivah is the financial bridge between Africa and global wealth — invest in stocks, ETFs and emerging markets directly from your phone.",
+    "Monivah is the financial bridge between Africa and global wealth — invest in stocks and emerging markets directly from your phone.",
 };
 
 export default function RootLayout({

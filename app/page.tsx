@@ -56,7 +56,7 @@ const steps = [
   {
     icon: <Globe />,
     title: "Invest Globally",
-    text: "Buy fractional shares of global stocks, ETFs and more.",
+    text: "Buy fractional shares of global stocks and more.",
   },
   {
     icon: <LineChart />,
@@ -78,7 +78,7 @@ const features = [
   },
   {
     icon: <LineChart />,
-    title: "Global Stocks & ETFs",
+    title: "Global Stocks",
     text: "Build a diversified portfolio with fractional shares from major exchanges around the world.",
   },
   {
@@ -117,7 +117,7 @@ const whyItems = [
   {
     icon: <Globe />,
     title: "Multi-Market Access",
-    text: "Stocks, ETFs and more from a single account.",
+    text: "Stocks and more from a single account.",
   },
   {
     icon: <Layers />,
@@ -152,7 +152,7 @@ const securityItems = [
 const testimonials = [
   {
     quote:
-      "Monivah finally makes global investing simple. I funded my wallet and bought my first ETF in under ten minutes.",
+      "Monivah finally makes global investing simple. I funded my wallet and bought my first stock in under ten minutes.",
     name: "Adaeze O.",
     role: "Product Designer, Lagos",
   },
@@ -179,7 +179,7 @@ const faqs = [
   {
     question: "What markets can I invest in?",
     answer:
-      "At launch you'll be able to access major US stocks and ETFs, with UK, EU and emerging-market exchanges following shortly after.",
+      "At launch you'll be able to access major US stocks, with UK, EU and emerging-market exchanges following shortly after.",
   },
   {
     question: "What's the minimum investment?",
@@ -320,7 +320,7 @@ export default function Home() {
 
             <p className="mt-8 text-xl text-slate-400 max-w-xl leading-relaxed">
               Monivah is the financial bridge between Africa and global
-              wealth. Buy global stocks, ETFs and emerging-market
+              wealth. Buy global stocks and emerging-market
               opportunities, manage a multi-currency wallet, and let AI guide
               every decision — all from your phone.
             </p>
@@ -399,7 +399,7 @@ export default function Home() {
 
               <div className="mt-6 flex items-center gap-2 text-xs px-3 py-2 rounded-full bg-white/5 border border-white/10 text-slate-300 w-fit">
                 <Brain size={14} className="text-brand-cyan" />
-                AI Insight: Diversify into EM ETFs
+                AI Insight: Diversify into EM stocks
               </div>
 
               <div className="mt-6 space-y-4">
