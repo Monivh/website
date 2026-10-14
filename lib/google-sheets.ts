@@ -64,9 +64,12 @@ async function getMoonshotSheet() {
       spreadsheetId,
       fields: "sheets.properties.title",
     });
-    const existing = meta.data.sheets
-      ?.map((sheet) => sheet.properties?.title ?? "")
-      .find((title) => title.trim().toLowerCase() === MOONSHOT_SHEET.toLowerCase());
+    const titles = meta.data.sheets?.map((sheet) => sheet.properties?.title ?? "") ?? [];
+    const dedicatedSpreadsheet = spreadsheetId !== defaultId;
+    // A spreadsheet used only for Moonshot can keep its default first tab (e.g. "Sheet1")
+    const existing =
+      titles.find((title) => title.trim().toLowerCase() === MOONSHOT_SHEET.toLowerCase()) ??
+      (dedicatedSpreadsheet ? titles[0] : undefined);
 
     const title = existing ?? MOONSHOT_SHEET;
     if (!existing) {
