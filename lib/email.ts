@@ -113,7 +113,7 @@ ${siteUrl}`;
   </body>
 </html>`;
 
-  await getTransport().sendMail({
+  const info = await getTransport().sendMail({
     from,
     to,
     replyTo: process.env.EMAIL_REPLY_TO || undefined,
@@ -121,4 +121,5 @@ ${siteUrl}`;
     text,
     html,
   });
+  console.log(`Moonshot confirmation email sent: ${info.messageId} (${info.response})`);
 }
