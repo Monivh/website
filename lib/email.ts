@@ -1,21 +1,21 @@
-import nodemailer from "nodemailer";
+// Sent over ZeptoMail's HTTPS API rather than SMTP: Render blocks outbound SMTP ports
+// (25/465/587), which made every send from the live site time out.
+const ZEPTOMAIL_API_URL = "https://api.zeptomail.com/v1.1/email";
 
-function getTransport() {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-
-  if (!host || !user || !pass) {
-    throw new Error("Missing SMTP credentials. Set SMTP_HOST, SMTP_USER and SMTP_PASS.");
+function getZeptoToken() {
+  // The ZeptoMail "Send Mail token" is the same value used as the SMTP password
+  const token = process.env.ZEPTOMAIL_TOKEN || process.env.SMTP_PASS;
+  if (!token) {
+    throw new Error("Missing ZeptoMail token. Set ZEPTOMAIL_TOKEN (or SMTP_PASS).");
   }
+  return token.replace(/^Zoho-enczapikey\s+/i, "").trim();
+}
 
-  const port = Number(process.env.SMTP_PORT || 465);
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-  });
+/** Splits `Name <address>` or a bare `address` into ZeptoMail's shape. */
+function parseAddress(value: string): { address: string; name?: string } {
+  const match = value.match(/^\s*"?([^"<]*?)"?\s*<([^>]+)>\s*$/);
+  if (match) return { address: match[2].trim(), name: match[1].trim() || undefined };
+  return { address: value.trim() };
 }
 
 function escapeHtml(value: string) {
@@ -30,7 +30,8 @@ const PREVIEW_TEXT = "You're a Monivah founding member. Here's what happens next
 
 export async function sendMoonshotConfirmation(to: string, firstName: string) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://monivah.com";
-  const from = process.env.EMAIL_FROM || `Monivah <${process.env.SMTP_USER}>`;
+  const from = parseAddress(process.env.EMAIL_FROM || "Monivah <info@monivah.com>");
+  const replyTo = process.env.EMAIL_REPLY_TO;
   const plainName = firstName.replace(/[\r\n]+/g, " ");
   const name = escapeHtml(plainName);
 
@@ -113,13 +114,27 @@ ${siteUrl}`;
   </body>
 </html>`;
 
-  const info = await getTransport().sendMail({
-    from,
-    to,
-    replyTo: process.env.EMAIL_REPLY_TO || undefined,
-    subject: `You're in, ${plainName}. Small talk officially skipped.`,
-    text,
-    html,
+  const res = await fetch(ZEPTOMAIL_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Zoho-enczapikey ${getZeptoToken()}`,
+    },
+    body: JSON.stringify({
+      from: { address: from.address, name: from.name ?? "Monivah" },
+      to: [{ email_address: { address: to, name: plainName } }],
+      reply_to: replyTo ? [parseAddress(replyTo)] : undefined,
+      subject: `You're in, ${plainName}. Small talk officially skipped.`,
+      textbody: text,
+      htmlbody: html,
+    }),
+    signal: AbortSignal.timeout(15_000),
   });
-  console.log(`Moonshot confirmation email sent: ${info.messageId} (${info.response})`);
+
+  const body = await res.text();
+  if (!res.ok) {
+    throw new Error(`ZeptoMail API ${res.status}: ${body}`);
+  }
+  console.log(`Moonshot confirmation email sent to ZeptoMail: ${body}`);
 }
